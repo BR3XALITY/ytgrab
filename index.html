@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Video Player</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #player {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div id="player"></div>
+
+<script>
+  var player;
+
+  // Load YouTube API
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // Called when API is ready
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      playerVars: {
+        autoplay: 1,
+        controls: 1,
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+        listType: 'playlist',
+        list: 'UUWUhIb2JVnXi0X4GVYoWU7w',
+        index: Math.floor(Math.random() * 200)
+      },
+      events: {
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  // Detect when video ends and load another random one
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.ENDED) {
+      player.loadPlaylist({
+        listType: 'playlist',
+        list: 'UUWUhIb2JVnXi0X4GVYoWU7w',
+        index: Math.floor(Math.random() * 200)
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
